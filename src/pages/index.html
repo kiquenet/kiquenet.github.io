@@ -38,13 +38,13 @@
 
     <script>
         const apps = [
-            // Navegadores
-            { name: "Microsoft Edge", desc: "Navegador basado en Chromium. Integración con ecosistema Microsoft.", logo: "M" },
-            { name: "Google Chrome", desc: "El estándar de facto para desarrollo y pruebas web.", logo: "C" },
-            { name: "Mozilla Firefox", desc: "Gran devtools y foco en privacidad. Esencial para pruebas.", logo: "F" },
-            { name: "Brave", desc: "Navegador rápido con bloqueador de anuncios y rastreadores integrado.", logo: "B" },
-            { name: "Vivaldi", desc: "Altamente personalizable, útil para flujos de trabajo específicos.", logo: "V" },
-            { name: "Opera", desc: "Histórico, con funcionalidades integradas como VPN.", logo: "O" },
+            // Navegadores (Se usará logo SVG)
+            { name: "Microsoft Edge", desc: "Navegador basado en Chromium. Integración con ecosistema Microsoft.", logo: "Edge", category: "browser" },
+            { name: "Google Chrome", desc: "El estándar de facto para desarrollo y pruebas web.", logo: "Chrome", category: "browser" },
+            { name: "Mozilla Firefox", desc: "Gran devtools y foco en privacidad. Esencial para pruebas.", logo: "Firefox", category: "browser" },
+            { name: "Brave", desc: "Navegador rápido con bloqueador de anuncios y rastreadores integrado.", logo: "Brave", category: "browser" },
+            { name: "Vivaldi", desc: "Altamente personalizable, útil para flujos de trabajo específicos.", logo: "Vivaldi", category: "browser" },
+            { name: "Opera", desc: "Histórico, con funcionalidades integradas como VPN.", logo: "Opera", category: "browser" },            
 
             // Microsoft Office 365
             { name: "Office 365 (Conjunto)", desc: "Productividad. Incluye Word, Excel, PowerPoint y Teams.", logo: "O365" },
@@ -117,6 +117,33 @@
 
         const container = document.getElementById('apps-container');
 
+     // Colección de SVGs para navegadores (código incrustado)
+        // Fuente: Simple Icons / Iconos simplificados para evitar dependencia externa
+        const browserSvgs = {
+            Edge: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-blue-600"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.897 14.864c-.035-.38.25-.71.63-.746.38-.035.71.25.746.63.035.38-.25.71-.63.746-.38.035-.71-.25-.746-.63zM12 18a6 6 0 100-12 6 6 0 000 12zM12 4a8 8 0 110 16 8 8 0 010-16zM12 8c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm-4 4a4 4 0 108 0 4 4 0 00-8 0z" /></svg>',
+            Chrome: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-red-600"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="currentColor" class="text-blue-600"/><path d="M16.94 6.06L12 10.99l-4.94-4.93A10 10 0 0112 2c2.72 0 5.2.98 7.07 2.58z" fill="#4CAF50"/><path d="M7.06 17.94l4.94-4.95 4.94 4.95a10 10 0 01-9.88 0z" fill="#FFC107"/><path d="M2.58 4.93C4.18 3.06 6.66 2 9.38 2l-3.32 3.33z" fill="#FF5722"/><path d="M17.94 7.06l-4.94 4.94 4.94 4.94a10 10 0 000-9.88z" fill="#03A9F4"/></svg>',
+            Firefox: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-orange-500"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2.022 13.882l-2.83 2.83a8 8 0 0111.664 0l-2.83-2.83-2.91-2.91a2 2 0 00-2.83 0l-1.63 1.63zM12 4a8 8 0 018 8h-4a4 4 0 00-8 0H4a8 8 0 018-8z" /></svg>',
+            Brave: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-orange-500"><path d="M12 2a10 10 0 00-9.95 9.07l.21 1.76a.5.5 0 00.5.42h18.48a.5.5 0 00.5-.42l.21-1.76A10 10 0 0012 2zm0 4a6 6 0 016 6H6a6 6 0 016-6zM5.5 14.5a.5.5 0 100 1h13a.5.5 0 100-1H5.5zM12 18a2 2 0 100 4 2 2 0 000-4z"/></svg>',
+            Vivaldi: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-red-700"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM6.9 16.5l.7-4.2a6 6 0 119.2-2.1l-.7 4.2-2.5 1.5-2.5-1.5z"/></svg>',
+            Opera: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-red-600"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>',
+        };
+
+  // Función para generar el logo: usa SVG real si es un navegador, sino usa el simulado
+        function getLogoMarkup(app) {
+            if (app.category === 'browser' && browserSvgs[app.logo]) {
+                // Si es un navegador, devuelve el SVG incrustado.
+                // El contenedor del SVG ya está definido por las clases dentro del SVG.
+                return browserSvgs[app.logo];
+            } else {
+                // Para el resto, usa el logo simulado con iniciales
+                return `
+                    <div class="w-12 h-12 bg-gray-400 text-white flex items-center justify-center rounded-lg shadow-md flex-shrink-0 font-bold text-xl">
+                        ${app.logo}
+                    </div>
+                `;
+            }
+        }
+
         // Función para generar un "logo" simple con SVG
         function generateSvg(initials) {
             // Un SVG simple de 48x48 que simula un logo con texto centrado y color base
@@ -147,6 +174,8 @@
 
             // Logo
             const logo = generateSvg(app.logo);
+            // Logo
+            const logoMarkup = getLogoMarkup(app);
             
             // Contenido de la tarjeta
             const content = `
@@ -157,6 +186,14 @@
                 </div>
             `;
 
+             // Contenido de la tarjeta
+            content = `
+                <div class="flex-shrink-0">${logoMarkup}</div>
+                <div class="flex-grow">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-1">${app.name}</h2>
+                    <p class="text-sm text-gray-500">${app.desc}</p>
+                </div>
+            `;
             card.innerHTML = content;
             container.appendChild(card);
         });
