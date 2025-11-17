@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup de Desarrollo - Herramientas Esenciales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos personalizados para la cuadrícula de tarjetas */
+        .grid-cards {
+            display: grid;
+            gap: 1.5rem; /* Espacio entre tarjetas */
+        }
+
+        /* Configuración de columnas para diferentes tamaños de pantalla (Tailwind utilities) */
+        @media (min-width: 768px) { /* md: */
+            .grid-cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 1024px) { /* lg: */
+            .grid-cards {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-4 sm:p-8">
+
+    <header class="mb-10 text-center">
+        <h1 class="text-4xl font-extrabold text-gray-800">Setup de Desarrollo</h1>
+        <p class="mt-2 text-xl text-gray-600">Herramientas y Aplicaciones Esenciales</p>
+    </header>
+
+    <div id="apps-container" class="grid-cards">
+        </div>
+
+    <script>
+        const apps = [
+            // Navegadores
+            { name: "Microsoft Edge", desc: "Navegador basado en Chromium. Integración con ecosistema Microsoft.", logo: "M" },
+            { name: "Google Chrome", desc: "El estándar de facto para desarrollo y pruebas web.", logo: "C" },
+            { name: "Mozilla Firefox", desc: "Gran devtools y foco en privacidad. Esencial para pruebas.", logo: "F" },
+            { name: "Brave", desc: "Navegador rápido con bloqueador de anuncios y rastreadores integrado.", logo: "B" },
+            { name: "Vivaldi", desc: "Altamente personalizable, útil para flujos de trabajo específicos.", logo: "V" },
+            { name: "Opera", desc: "Histórico, con funcionalidades integradas como VPN.", logo: "O" },
+
+            // Microsoft Office 365
+            { name: "Office 365 (Conjunto)", desc: "Productividad. Incluye Word, Excel, PowerPoint y Teams.", logo: "O365" },
+
+            // Entornos de Desarrollo (IDEs) y Editores
+            { name: "Visual Studio 2022/2026", desc: "IDE principal para desarrollo C# / .NET.", logo: "VS" },
+            { name: "Visual Studio 2019", desc: "Mantenimiento para proyectos legados o versiones específicas.", logo: "VS19" },
+            { name: "Visual Studio Code", desc: "Editor de código ligero, modular y multiplataforma.", logo: "VSC" },
+            { name: "Python", desc: "Lenguaje de programación versátil para scripting, IA/ML y backend.", logo: "Py" },
+
+            // Bases de Datos
+            { name: "SQL Server Management Studio", desc: "Herramienta de gestión para SQL Server de Microsoft.", logo: "SSMS" },
+            { name: "Azure Data Studio", desc: "Editor de SQL multiplataforma. Más ligero que SSMS.", logo: "ADS" },
+            { name: "DBeaver", desc: "Cliente universal de bases de datos para múltiples motores SQL/NoSQL.", logo: "DB" },
+            { name: "SQLiteBrowser", desc: "Editor y visor gráfico para bases de datos SQLite.", logo: "SQLB" },
+            
+            // Componentes y Utilidades de Desarrollo
+            { name: "Component One", desc: "Librería de componentes UI (C1) para desarrolladores.", logo: "C1" },
+            { name: "Postman", desc: "Plataforma API (REST/SOAP) para desarrollo, pruebas y documentación.", logo: "PM" },
+            { name: "Insomnia", desc: "Cliente alternativo de API REST/GraphQL. Interfaz moderna.", logo: "Ins" },
+            { name: "SOAPUI", desc: "Herramienta de testing para servicios web (principalmente SOAP).", logo: "SU" },
+            { name: "WireMock", desc: "Servidor de 'mocking' HTTP para pruebas de integración.", logo: "WM" },
+            { name: "RestSharp", desc: "Librería .NET para peticiones HTTP/REST. (Incluido en setup C#).", logo: "RS" },
+            { name: "LinqPad", desc: "Bloc de notas para ejecutar código .NET (C#/F#/VB) sin IDE.", logo: "LP" },
+
+            // DevOps y Virtualización
+            { name: "Docker Desktop", desc: "Plataforma de virtualización ligera (contenedores) para desarrollo.", logo: "Dkr" },
+            
+            // Multimedia
+            { name: "VLC Media Player", desc: "Reproductor multimedia universal y multiplataforma.", logo: "VLC" },
+            { name: "Audacity", desc: "Editor de audio digital gratuito y de código abierto.", logo: "Aud" },
+            { name: "Goldwave", desc: "Potente editor de audio digital (alternativa profesional).", logo: "GW" },
+            { name: "ffmpeg", desc: "Herramienta CLI para manejar archivos multimedia (audio/video).", logo: "FF" },
+
+            // Utilidades Generales
+            { name: "Notepad++", desc: "Editor de texto avanzado y ligero para Windows.", logo: "Npp" },
+            { name: "KeePass", desc: "Gestor de contraseñas de código abierto. Seguridad crítica.", logo: "KP" },
+            { name: "WinSCP", desc: "Cliente SFTP, FTP y SCP para transferencias seguras de archivos.", logo: "WSCP" },
+            { name: "yEd Graph Editor", desc: "Editor de diagramas de alta calidad para estructuras complejas.", logo: "YED" },
+            { name: "draw.io / diagrams.net", desc: "Herramienta de diagramación de código abierto.", logo: "Draw" },
+            { name: "ConEmu", desc: "Consola de Windows avanzada con pestañas y mejoras.", logo: "Cnm" },
+            { name: "mRemoteNG", desc: "Gestor de conexiones remotas (RDP, SSH, VNC, etc.) con pestañas.", logo: "mR" },
+            { name: "WinMerge", desc: "Herramienta de comparación visual y fusión de archivos/directorios.", logo: "WMg" },
+            { name: "Beyond Compare", desc: "Comparador de archivos y carpetas líder del mercado.", logo: "BC" },
+            { name: "dupeguru", desc: "Buscador de archivos duplicados con interfaz gráfica.", logo: "DG" },
+            { name: "SyncToy", desc: "Utilidad de sincronización de archivos de Microsoft (alternativa a Synctrayzor).", logo: "ST" },
+            { name: "Synctrayzor", desc: "Cliente de Syncthing para Windows (sincronización P2P).", logo: "Syn" },
+            
+            // Utilidades del Sistema
+            { name: "7-Zip", desc: "Archivador de archivos con alta compresión. Uso estándar.", logo: "7z" },
+            { name: "PowerToys", desc: "Conjunto de utilidades de Microsoft para aumentar la productividad de Windows.", logo: "PT" },
+            { name: "SysInternals Suite", desc: "Colección de herramientas técnicas para diagnóstico y solución de problemas.", logo: "SI" },
+            { name: "Nirsoft Utilities", desc: "Cientos de utilidades pequeñas y gratuitas para el sistema.", logo: "NS" },
+            { name: "curl", desc: "Herramienta de línea de comandos para transferir datos con sintaxis URL.", logo: "c" },
+            { name: "wget", desc: "Herramienta de línea de comandos para descargar contenido de servidores web.", logo: "w" },
+            { name: "Chocolatey", desc: "Gestor de paquetes para Windows. Simplifica la instalación.", logo: "Choco" }, // Añadido como componente de setup
+            
+            // Análisis y Reporte
+            { name: "Power BI", desc: "Herramienta de inteligencia empresarial para análisis y visualización de datos.", logo: "PBI" },
+            { name: "LogParser", desc: "Potente motor de análisis de logs de Microsoft (CLI).", logo: "LPars" },
+            { name: "Scanner - TreeFolderSize", desc: "Analizador de espacio en disco (alternativas a WinDirStat).", logo: "Scan" },
+
+            // Visores
+            { name: "Acrobat Reader", desc: "Visor estándar para documentos PDF.", logo: "PDF" },
+
+            // Scripts/Acciones a ejecutar (No son apps instalables)
+            { name: "Desinstalar Xbox y Game Bar", desc: "Acción de limpieza post-instalación de Windows.", logo: "Clean" },
+            { name: "Desinstalar Juegos", desc: "Acción de limpieza para entornos de desarrollo.", logo: "Clean" },
+        ];
+
+        const container = document.getElementById('apps-container');
+
+        // Función para generar un "logo" simple con SVG
+        function generateSvg(initials) {
+            // Un SVG simple de 48x48 que simula un logo con texto centrado y color base
+            const svgMarkup = `
+                <svg viewBox="0 0 100 100" class="w-12 h-12 bg-blue-500 text-white rounded-lg p-2 flex-shrink-0">
+                    <rect width="100" height="100" rx="10" fill="currentColor"/>
+                    <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle" font-size="40" font-weight="bold" fill="#ffffff">
+                        ${initials}
+                    </text>
+                </svg>
+            `;
+            // NOTA: En un entorno real, la propiedad 'fill="currentColor"' no funcionaría directamente en la etiqueta 'rect'
+            // de esta manera si no se le da un valor CSS de color. Aquí lo simplificamos para mostrar la estructura.
+            // Para la demostración, usamos bg-blue-500 en la etiqueta padre.
+
+             // Para evitar la complejidad del SVG en un ejemplo simple y seguir con la estructura de logo:
+            return `
+                <div class="w-12 h-12 bg-blue-600 text-white flex items-center justify-center rounded-lg shadow-md flex-shrink-0 font-bold text-xl">
+                    ${initials}
+                </div>
+            `;
+        }
+
+        // Renderizar las tarjetas
+        apps.forEach(app => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 p-6 flex space-x-4 border border-gray-100';
+
+            // Logo
+            const logo = generateSvg(app.logo);
+            
+            // Contenido de la tarjeta
+            const content = `
+                ${logo}
+                <div class="flex-grow">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-1">${app.name}</h2>
+                    <p class="text-sm text-gray-500">${app.desc}</p>
+                </div>
+            `;
+
+            card.innerHTML = content;
+            container.appendChild(card);
+        });
+    </script>
+</body>
+</html>
