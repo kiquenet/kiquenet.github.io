@@ -24,6 +24,22 @@
         .icon-svg {
             color: #4B5563;
         }
+        .code-block {
+            background-color: #1f2937; /* Gray-800 */
+            color: #f9fafb; /* White */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap; /* Permite saltos de línea largos */
+            word-wrap: break-word; /* Rompe palabras largas */
+        }
+        .code-title {
+            font-weight: bold;
+            color: #a7f3d0; /* Green-200 */
+            margin-bottom: 0.5rem;
+            display: block;
+        }
     </style>
 </head>
 <body class="bg-gray-50 p-4 sm:p-8">
@@ -36,12 +52,77 @@
     <div id="main-container" class="space-y-12">
         </div>
 
+    <section class="mt-16 pt-8 border-t border-gray-300">
+        <h2 class="text-3xl font-bold mb-6 p-3 bg-red-100 text-red-800 rounded-lg border-l-4 border-red-600 shadow-md">
+            🚀 Scripts de Instalación Masiva
+        </h2>
+        <p class="mb-6 text-gray-600">
+            Instala todas las aplicaciones listadas usando gestores de paquetes.
+            **Requiere Chocolatey/Winget preinstalados.** Ejecutar con permisos de Administrador.
+        </p>
+        
+        <div class="space-y-8 lg:flex lg:space-x-8 lg:space-y-0">
+            <div class="lg:w-1/2">
+                <span class="code-title text-yellow-300">🍫 Chocolatey (PowerShell)</span>
+                <div class="code-block" id="choco-script"></div>
+            </div>
+            <div class="lg:w-1/2">
+                <span class="code-title text-blue-300">📦 Winget (CMD/PowerShell)</span>
+                <div class="code-block" id="winget-script"></div>
+            </div>
+        </div>
+
+        <h3 class="text-xl font-bold mt-10 mb-4 text-gray-700">Comandos de Limpieza Post-Instalación</h3>
+        <span class="code-title text-red-400">🛑 Desinstalación de Bloatware (PowerShell)</span>
+        <div class="code-block">
+            # Eliminar Xbox Game Bar (UWP)
+            Get-AppxPackage *xboxapp* | Remove-AppxPackage
+            Get-AppxPackage *xboxgamecallableui* | Remove-AppxPackage
+
+            # Eliminar Juegos/Trivialidades (Ajustar según la versión de Windows)
+            Get-AppxPackage *CandyCrush* | Remove-AppxPackage
+            # ... Añadir más comandos de limpieza UWP si es necesario
+        </div>
+    </section>
+
     <script>
         const ICON_CDN_BASE = 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/';
 
-        const apps = [
-            // { name: "Nombre App", desc: "Descripción concisa", logo_slug: "slug", category: "Categoría" }
+        // Mapeo de aplicaciones a IDs de paquetes (usando los IDs más probables)
+        const CHOC_IDS = {
+            "Edge": "microsoft-edge", "Chrome": "googlechrome", "Firefox": "firefox", "Brave": "brave", 
+            "Vivaldi": "vivaldi", "Opera": "opera", "Visual Studio 2019/2022/2026": "visualstudio2022buildtools", 
+            "Visual Studio Code": "vscode", "Python": "python", "Notepad++": "notepadplusplus", 
+            "Docker Desktop": "docker-desktop", "SSMS / SQL Server": "sql-management-studio", 
+            "DBeaver": "dbeaver", "SQLiteBrowser": "sqlitebrowser", "Postman": "postman", 
+            "Insomnia": "insomnia", "7-Zip": "7zip", "PowerToys": "powertoys", 
+            "WinSCP": "winscp", "curl": "curl", "wget": "wget", "VLC Media Player": "vlc", 
+            "Audacity": "audacity", "ffmpeg": "ffmpeg", "WinDirStat": "windirstat",
+            "WinMerge": "winmerge", "Beyond Compare": "beyondcompare4", "mRemoteNG": "mremoteng",
+            "dupeguru": "dupeguru", "Acrobat Reader": "adobereader", "KeePass": "keepass"
+            // Nota: ComponentOne, LogParser, Nirsoft, SOAPUI, RestSharp, SyncToy, Synctrayzor, draw.io, yEd, Goldwave, WireMock no tienen IDs Choco universales o se consideran librerías.
+        };
 
+        const WINGET_IDS = {
+            "Edge": "Microsoft.Edge", "Chrome": "Google.Chrome", "Firefox": "Mozilla.Firefox", 
+            "Brave": "BraveSoftware.BraveBrowser", "Vivaldi": "VivaldiTechnologies.Vivaldi", 
+            "Opera": "Opera.Opera", "Visual Studio Code": "Microsoft.VisualStudioCode", 
+            "Python": "Python.Python.3", "Notepad++": "Notepad++.Notepad++", 
+            "Docker Desktop": "Docker.DockerDesktop", "Azure Data Studio": "Microsoft.AzureDataStudio", 
+            "DBeaver": "DBeaver.DBeaver", "SQLiteBrowser": "sqlitebrowser.sqlitebrowser", 
+            "Postman": "Postman.Postman", "Insomnia": "Kong.Insomnia", "7-Zip": "7zip.7zip", 
+            "PowerToys": "Microsoft.PowerToys", "WinSCP": "WinSCP.WinSCP", "curl": "curl.curl", 
+            "wget": "wget.wget", "VLC Media Player": "VideoLAN.VLC", "Audacity": "Audacity.Audacity", 
+            "ffmpeg": "FFmpeg.FFmpeg", "WinDirStat": "WinDirStat.WinDirStat", "WinMerge": "WinMerge.WinMerge", 
+            "Beyond Compare": "ScooterSoftware.BeyondCompare", "mRemoteNG": "mRemoteNG.mRemoteNG",
+            "Acrobat Reader": "Adobe.Acrobat.Reader.64-bit", "KeePass": "KeePass.KeePass",
+            // Nota: IDs VS, SSMS, ComponentOne, LogParser, Nirsoft, etc., se omiten o requieren fuentes específicas (ej. winget source add vs 'url')
+        };
+
+
+        const apps = [
+            // Las descripciones y categorías son exactamente las mismas que en la respuesta anterior
+            
             // PRODUCTIVIDAD GENERAL
             { name: "MS Office 365", desc: "Suite de productividad esencial (Word, Excel, etc.).", logo_slug: "microsoftoffice", category: "Productividad General" },
             { name: "KeePass", desc: "Gestor de contraseñas de código abierto. Seguridad.", logo_slug: "keepass", category: "Productividad General" },
@@ -60,12 +141,12 @@
             { name: "Visual Studio 2019/2022/2026", desc: "IDE principal para C# / .NET. Soporte Copilot.", logo_slug: "visualstudio", category: "IDEs, Editores y Lenguajes" },
             { name: "Visual Studio Code", desc: "Editor de código ligero, modular y multiplataforma.", logo_slug: "visualstudiocode", category: "IDEs, Editores y Lenguajes" },
             { name: "Python", desc: "Lenguaje versátil para scripting, IA/ML y backend.", logo_slug: "python", category: "IDEs, Editores y Lenguajes" },
-            { name: "Component One", desc: "Librerías de componentes UI para .NET (WinForms, WPF, Blazor).", logo_slug: "microsoft", category: "IDEs, Editores y Lenguajes" }, // Usando MS, no hay slug C1
+            { name: "Component One", desc: "Librerías de componentes UI para .NET (WinForms, WPF, Blazor).", logo_slug: "microsoft", category: "IDEs, Editores y Lenguajes" }, 
             { name: "Notepad++", desc: "Editor de texto avanzado y ligero para Windows.", logo_slug: "notepadplusplus", category: "IDEs, Editores y Lenguajes" },
             
             // INFRAESTRUCTURA Y VIRTUALIZACIÓN
             { name: "Docker Desktop", desc: "Virtualización ligera (contenedores) para desarrollo.", logo_slug: "docker", category: "Infraestructura y Virtualización" },
-            { name: "mRemoteNG", desc: "Gestor de conexiones remotas (RDP, SSH, VNC) con pestañas.", logo_slug: "remote", category: "Infraestructura y Virtualización" }, // No hay slug exacto
+            { name: "mRemoteNG", desc: "Gestor de conexiones remotas (RDP, SSH, VNC) con pestañas.", logo_slug: "remote", category: "Infraestructura y Virtualización" }, 
             
             // HERRAMIENTAS DE BASE DE DATOS
             { name: "SSMS / SQL Server", desc: "Herramienta de gestión para SQL Server de Microsoft.", logo_slug: "sqlserver", category: "Bases de Datos" },
@@ -79,19 +160,19 @@
             { name: "Insomnia", desc: "Cliente alternativo de API REST/GraphQL.", logo_slug: "insomnia", category: "Testing y APIs" },
             { name: "WireMock", desc: "Servidor de 'mocking' HTTP para pruebas de integración.", logo_slug: "wiremock", category: "Testing y APIs" },
             { name: "SOAPUI", desc: "Herramienta de testing para servicios web SOAP.", logo_slug: "soapui", category: "Testing y APIs" },
-            { name: "RestSharp", desc: "Librería HTTP de bajo nivel para clientes .NET.", logo_slug: "nuget", category: "Testing y APIs" }, // Usando el logo de NuGet, ya que es una librería .NET
+            { name: "RestSharp", desc: "Librería HTTP de bajo nivel para clientes .NET.", logo_slug: "nuget", category: "Testing y APIs" }, 
             
             // ANÁLISIS, LOGS Y ESPACIO EN DISCO
             { name: "Power BI", desc: "Inteligencia empresarial, análisis y visualización de datos.", logo_slug: "powerbi", category: "Análisis y Logística" },
             { name: "LogParser", desc: "Potente motor de análisis de logs de Microsoft (CLI).", logo_slug: "microsoft", category: "Análisis y Logística" },
             { name: "WinDirStat", desc: "Herramienta visual de estadísticas de uso de disco y limpieza.", logo_slug: "windirstat", category: "Análisis y Logística" },
-            { name: "Scanner / TreeFolderSize", desc: "Utilidad para visualizar el tamaño de los directorios.", logo_slug: "windows", category: "Análisis y Logística" }, // No hay slug
+            { name: "Scanner / TreeFolderSize", desc: "Utilidad para visualizar el tamaño de los directorios.", logo_slug: "windows", category: "Análisis y Logística" }, 
             
             // HERRAMIENTAS DE SISTEMA Y CLI
             { name: "WinSCP", desc: "Cliente SFTP, FTP y SCP para transferencias seguras.", logo_slug: "winscp", category: "Sistema y CLI" },
             { name: "ConEmu", desc: "Consola de Windows avanzada con pestañas y mejoras.", logo_slug: "windows" , category: "Sistema y CLI" },
             { name: "SysInternals", desc: "Colección de herramientas técnicas para diagnóstico.", logo_slug: "microsoft", category: "Sistema y CLI" },
-            { name: "Nirsoft Utilities", desc: "Cientos de utilidades pequeñas y gratuitas para el sistema.", logo_slug: "nirvana", category: "Sistema y CLI" }, // No hay slug
+            { name: "Nirsoft Utilities", desc: "Cientos de utilidades pequeñas y gratuitas para el sistema.", logo_slug: "nirvana", category: "Sistema y CLI" }, 
             { name: "PowerToys", desc: "Utilidades de Microsoft para aumentar la productividad de Windows.", logo_slug: "microsoftpowertoys", category: "Sistema y CLI" },
             { name: "curl", desc: "Herramienta CLI para transferir datos con sintaxis URL.", logo_slug: "curl", category: "Sistema y CLI" },
             { name: "wget", desc: "Herramienta CLI para descargar contenido de servidores web.", logo_slug: "gnu", category: "Sistema y CLI" },
@@ -99,18 +180,18 @@
             // DIFERENCIAS Y SINCRONIZACIÓN
             { name: "WinMerge", desc: "Comparación visual y fusión de archivos/directorios.", logo_slug: "winmerge", category: "Diferencias y Sync" },
             { name: "Beyond Compare", desc: "Comparador de archivos y carpetas líder.", logo_slug: "scootersoftware", category: "Diferencias y Sync" },
-            { name: "dupeguru", desc: "Buscador de archivos duplicados con interfaz gráfica (GUI).", logo_slug: "applearcade", category: "Diferencias y Sync" }, // No hay slug, usando Arcade como placeholder
+            { name: "dupeguru", desc: "Buscador de archivos duplicados con interfaz gráfica (GUI).", logo_slug: "applearcade", category: "Diferencias y Sync" }, 
             { name: "SyncToy", desc: "Utilidad de sincronización de archivos de Microsoft.", logo_slug: "microsoft", category: "Diferencias y Sync" },
             { name: "Synctrayzor", desc: "Cliente de Syncthing para Windows.", logo_slug: "syncthing", category: "Diferencias y Sync" },
             
             // DIAGRAMACIÓN Y DOCUMENTACIÓN
             { name: "draw.io / diagrams.net", desc: "Herramienta de diagramación de código abierto.", logo_slug: "diagramsdotnet", category: "Diagramación y Doc." },
-            { name: "yEd Graph Editor", desc: "Editor de diagramas de alta calidad para estructuras.", logo_slug: "yed", category: "Diagramación y Doc." }, // No hay slug
+            { name: "yEd Graph Editor", desc: "Editor de diagramas de alta calidad para estructuras.", logo_slug: "yed", category: "Diagramación y Doc." }, 
             
             // MULTIMEDIA
             { name: "VLC Media Player", desc: "Reproductor multimedia universal.", logo_slug: "vlcmediaplayer", category: "Multimedia" },
             { name: "Audacity", desc: "Editor de audio digital gratuito.", logo_slug: "audacity", category: "Multimedia" },
-            { name: "Goldwave", desc: "Potente editor de audio digital (alternativa profesional).", logo_slug: "sound", category: "Multimedia" }, // No hay slug
+            { name: "Goldwave", desc: "Potente editor de audio digital (alternativa profesional).", logo_slug: "sound", category: "Multimedia" }, 
             { name: "ffmpeg", desc: "Herramienta CLI para manejar archivos multimedia (audio/video).", logo_slug: "ffmpeg", category: "Multimedia" },
             
             // MANTENIMIENTO Y LIMPIEZA
@@ -122,7 +203,6 @@
             const logoSlug = app.logo_slug;
             const logoUrl = `${ICON_CDN_BASE}${logoSlug}.svg`;
             
-            // El error es un fallback genérico si el slug es incorrecto o no existe.
             return `
                 <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center">
                     <img src="${logoUrl}" alt="${app.name} Logo" 
@@ -136,7 +216,6 @@
         // 1. Agrupar las aplicaciones por categoría
         const categorizedApps = apps.reduce((acc, app) => {
             if (!app.category) {
-                // Herramientas sin categoría van a "General" o se ignoran.
                 app.category = "Otras Utilidades";
             }
             if (!acc[app.category]) {
@@ -148,19 +227,17 @@
 
         const mainContainer = document.getElementById('main-container');
 
-        // 2. Iterar sobre las categorías y renderizar
+        // 2. Iterar sobre las categorías y renderizar (CÓDIGO OMITIDO POR BREVEDAD, ES EL MISMO QUE EN RESPUESTA ANTERIOR)
         Object.keys(categorizedApps).forEach(category => {
             const categorySection = document.createElement('section');
             categorySection.className = 'mb-10';
 
-            // Título de la Categoría
             const categoryHeader = document.createElement('h2');
             categoryHeader.className = 'text-2xl font-bold mb-4 p-3 bg-gray-200 text-gray-800 rounded-lg border-l-4 border-blue-600 shadow-md';
             categoryHeader.textContent = category;
             
             categorySection.appendChild(categoryHeader);
 
-            // Contenedor de las Tarjetas para esta categoría
             const gridContainer = document.createElement('div');
             gridContainer.className = 'grid-cards';
             
@@ -185,6 +262,41 @@
             categorySection.appendChild(gridContainer);
             mainContainer.appendChild(categorySection);
         });
+        
+        // 3. Generar scripts de instalación
+        let chocoPackages = [];
+        let wingetPackages = [];
+        
+        // Iterar sobre las aplicaciones y recoger los IDs
+        apps.forEach(app => {
+            const name = app.name;
+            if (CHOC_IDS[name]) {
+                chocoPackages.push(CHOC_IDS[name]);
+            }
+            if (WINGET_IDS[name]) {
+                wingetPackages.push(WINGET_IDS[name]);
+            }
+        });
+
+        // Crear comandos de instalación
+        const chocoScriptText = `
+# CHOCHOLATEY: Instalación masiva. Ejecutar en PowerShell como Administrador.
+
+# Comandos de instalación Choco:
+choco install ${chocoPackages.join(' ')} -y
+`;
+
+        const wingetScriptText = `
+# WINGET: Instalación masiva. Ejecutar en CMD/PowerShell como Administrador.
+
+# Comandos de instalación Winget:
+${wingetPackages.map(id => `winget install --id ${id} -e --accept-package-agreements --accept-source-agreements`).join('\n')}
+`;
+
+        // Insertar los scripts en el DOM
+        document.getElementById('choco-script').textContent = chocoScriptText.trim();
+        document.getElementById('winget-script').textContent = wingetScriptText.trim();
+
     </script>
 </body>
 </html>
