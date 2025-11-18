@@ -41,6 +41,12 @@
 
         const apps = [
             // { name: "Nombre App", desc: "Descripción concisa", logo_slug: "slug", category: "Categoría" }
+
+            // PRODUCTIVIDAD GENERAL
+            { name: "MS Office 365", desc: "Suite de productividad esencial (Word, Excel, etc.).", logo_slug: "microsoftoffice", category: "Productividad General" },
+            { name: "KeePass", desc: "Gestor de contraseñas de código abierto. Seguridad.", logo_slug: "keepass", category: "Productividad General" },
+            { name: "7-Zip", desc: "Archivador de archivos con alta compresión.", logo_slug: "7zip", category: "Productividad General" },
+            { name: "Acrobat Reader", desc: "Visor estándar para documentos PDF.", logo_slug: "adobeacrobatreader", category: "Productividad General" },
             
             // NAVEGADORES
             { name: "Edge", desc: "Navegador basado en Chromium. Integración MS.", logo_slug: "microsoftedge", category: "Navegadores" },
@@ -50,15 +56,17 @@
             { name: "Vivaldi", desc: "Altamente personalizable para flujos específicos.", logo_slug: "vivaldi", category: "Navegadores" },
             { name: "Opera", desc: "Funcionalidades integradas (VPN, workspaces).", logo_slug: "opera", category: "Navegadores" },
 
-            // IDEs y Editores de Código
-            { name: "Visual Studio 2022+", desc: "IDE principal para C# / .NET. Soporte Copilot.", logo_slug: "visualstudio", category: "IDEs y Editores" },
-            { name: "Visual Studio Code", desc: "Editor de código ligero, modular y multiplataforma.", logo_slug: "visualstudiocode", category: "IDEs y Editores" },
-            { name: "Notepad++", desc: "Editor de texto avanzado y ligero para Windows.", logo_slug: "notepadplusplus", category: "IDEs y Editores" },
+            // IDEs, EDITORES Y LENGUAJES
+            { name: "Visual Studio 2019/2022/2026", desc: "IDE principal para C# / .NET. Soporte Copilot.", logo_slug: "visualstudio", category: "IDEs, Editores y Lenguajes" },
+            { name: "Visual Studio Code", desc: "Editor de código ligero, modular y multiplataforma.", logo_slug: "visualstudiocode", category: "IDEs, Editores y Lenguajes" },
+            { name: "Python", desc: "Lenguaje versátil para scripting, IA/ML y backend.", logo_slug: "python", category: "IDEs, Editores y Lenguajes" },
+            { name: "Component One", desc: "Librerías de componentes UI para .NET (WinForms, WPF, Blazor).", logo_slug: "microsoft", category: "IDEs, Editores y Lenguajes" }, // Usando MS, no hay slug C1
+            { name: "Notepad++", desc: "Editor de texto avanzado y ligero para Windows.", logo_slug: "notepadplusplus", category: "IDEs, Editores y Lenguajes" },
             
-            // LENGUAJES Y PLATAFORMAS
-            { name: "Python", desc: "Lenguaje versátil para scripting, IA/ML y backend.", logo_slug: "python", category: "Lenguajes y Plataformas" },
-            { name: "Docker Desktop", desc: "Virtualización ligera (contenedores) para desarrollo.", logo_slug: "docker", category: "Lenguajes y Plataformas" },
-
+            // INFRAESTRUCTURA Y VIRTUALIZACIÓN
+            { name: "Docker Desktop", desc: "Virtualización ligera (contenedores) para desarrollo.", logo_slug: "docker", category: "Infraestructura y Virtualización" },
+            { name: "mRemoteNG", desc: "Gestor de conexiones remotas (RDP, SSH, VNC) con pestañas.", logo_slug: "remote", category: "Infraestructura y Virtualización" }, // No hay slug exacto
+            
             // HERRAMIENTAS DE BASE DE DATOS
             { name: "SSMS / SQL Server", desc: "Herramienta de gestión para SQL Server de Microsoft.", logo_slug: "sqlserver", category: "Bases de Datos" },
             { name: "Azure Data Studio", desc: "Editor de SQL multiplataforma y más ligero.", logo_slug: "azuredevops", category: "Bases de Datos" },
@@ -71,49 +79,55 @@
             { name: "Insomnia", desc: "Cliente alternativo de API REST/GraphQL.", logo_slug: "insomnia", category: "Testing y APIs" },
             { name: "WireMock", desc: "Servidor de 'mocking' HTTP para pruebas de integración.", logo_slug: "wiremock", category: "Testing y APIs" },
             { name: "SOAPUI", desc: "Herramienta de testing para servicios web SOAP.", logo_slug: "soapui", category: "Testing y APIs" },
+            { name: "RestSharp", desc: "Librería HTTP de bajo nivel para clientes .NET.", logo_slug: "nuget", category: "Testing y APIs" }, // Usando el logo de NuGet, ya que es una librería .NET
             
-            // UTILIDADES Y PRODUCTIVIDAD
-            { name: "Office 365", desc: "Suite de productividad esencial (Word, Excel, etc.).", logo_slug: "microsoftoffice", category: "Utilidades y Productividad" },
-            { name: "Power BI", desc: "Inteligencia empresarial, análisis y visualización de datos.", logo_slug: "powerbi", category: "Utilidades y Productividad" },
-            { name: "KeePass", desc: "Gestor de contraseñas de código abierto. Seguridad.", logo_slug: "keepass", category: "Utilidades y Productividad" },
-            { name: "7-Zip", desc: "Archivador de archivos con alta compresión.", logo_slug: "7zip", category: "Utilidades y Productividad" },
-            { name: "PowerToys", desc: "Utilidades de Microsoft para aumentar la productividad de Windows.", logo_slug: "microsoftpowertoys", category: "Utilidades y Productividad" },
-            { name: "draw.io / diagrams.net", desc: "Herramienta de diagramación de código abierto.", logo_slug: "diagramsdotnet", category: "Utilidades y Productividad" },
-            { name: "yEd Graph Editor", desc: "Editor de diagramas de alta calidad para estructuras.", logo_slug: "yed", category: "Utilidades y Productividad" }, // Placeholder
-            { name: "Acrobat Reader", desc: "Visor estándar para documentos PDF.", logo_slug: "adobeacrobatreader", category: "Utilidades y Productividad" },
+            // ANÁLISIS, LOGS Y ESPACIO EN DISCO
+            { name: "Power BI", desc: "Inteligencia empresarial, análisis y visualización de datos.", logo_slug: "powerbi", category: "Análisis y Logística" },
+            { name: "LogParser", desc: "Potente motor de análisis de logs de Microsoft (CLI).", logo_slug: "microsoft", category: "Análisis y Logística" },
+            { name: "WinDirStat", desc: "Herramienta visual de estadísticas de uso de disco y limpieza.", logo_slug: "windirstat", category: "Análisis y Logística" },
+            { name: "Scanner / TreeFolderSize", desc: "Utilidad para visualizar el tamaño de los directorios.", logo_slug: "windows", category: "Análisis y Logística" }, // No hay slug
             
             // HERRAMIENTAS DE SISTEMA Y CLI
             { name: "WinSCP", desc: "Cliente SFTP, FTP y SCP para transferencias seguras.", logo_slug: "winscp", category: "Sistema y CLI" },
-            { name: "ConEmu", desc: "Consola de Windows avanzada con pestañas y mejoras.", logo_slug: "windows" , category: "Sistema y CLI" }, // Usando logo de Windows
+            { name: "ConEmu", desc: "Consola de Windows avanzada con pestañas y mejoras.", logo_slug: "windows" , category: "Sistema y CLI" },
             { name: "SysInternals", desc: "Colección de herramientas técnicas para diagnóstico.", logo_slug: "microsoft", category: "Sistema y CLI" },
-            { name: "Nirsoft Utilities", desc: "Cientos de utilidades pequeñas y gratuitas para el sistema.", logo_slug: "nirvana", category: "Sistema y CLI" }, // Placeholder
+            { name: "Nirsoft Utilities", desc: "Cientos de utilidades pequeñas y gratuitas para el sistema.", logo_slug: "nirvana", category: "Sistema y CLI" }, // No hay slug
+            { name: "PowerToys", desc: "Utilidades de Microsoft para aumentar la productividad de Windows.", logo_slug: "microsoftpowertoys", category: "Sistema y CLI" },
             { name: "curl", desc: "Herramienta CLI para transferir datos con sintaxis URL.", logo_slug: "curl", category: "Sistema y CLI" },
             { name: "wget", desc: "Herramienta CLI para descargar contenido de servidores web.", logo_slug: "gnu", category: "Sistema y CLI" },
             
             // DIFERENCIAS Y SINCRONIZACIÓN
             { name: "WinMerge", desc: "Comparación visual y fusión de archivos/directorios.", logo_slug: "winmerge", category: "Diferencias y Sync" },
             { name: "Beyond Compare", desc: "Comparador de archivos y carpetas líder.", logo_slug: "scootersoftware", category: "Diferencias y Sync" },
+            { name: "dupeguru", desc: "Buscador de archivos duplicados con interfaz gráfica (GUI).", logo_slug: "applearcade", category: "Diferencias y Sync" }, // No hay slug, usando Arcade como placeholder
             { name: "SyncToy", desc: "Utilidad de sincronización de archivos de Microsoft.", logo_slug: "microsoft", category: "Diferencias y Sync" },
             { name: "Synctrayzor", desc: "Cliente de Syncthing para Windows.", logo_slug: "syncthing", category: "Diferencias y Sync" },
-
+            
+            // DIAGRAMACIÓN Y DOCUMENTACIÓN
+            { name: "draw.io / diagrams.net", desc: "Herramienta de diagramación de código abierto.", logo_slug: "diagramsdotnet", category: "Diagramación y Doc." },
+            { name: "yEd Graph Editor", desc: "Editor de diagramas de alta calidad para estructuras.", logo_slug: "yed", category: "Diagramación y Doc." }, // No hay slug
+            
             // MULTIMEDIA
             { name: "VLC Media Player", desc: "Reproductor multimedia universal.", logo_slug: "vlcmediaplayer", category: "Multimedia" },
             { name: "Audacity", desc: "Editor de audio digital gratuito.", logo_slug: "audacity", category: "Multimedia" },
+            { name: "Goldwave", desc: "Potente editor de audio digital (alternativa profesional).", logo_slug: "sound", category: "Multimedia" }, // No hay slug
             { name: "ffmpeg", desc: "Herramienta CLI para manejar archivos multimedia (audio/video).", logo_slug: "ffmpeg", category: "Multimedia" },
             
             // MANTENIMIENTO Y LIMPIEZA
             { name: "Limpieza Post-Instalación", desc: "Scripts para desinstalar Xbox, Game Bar y juegos innecesarios.", logo_slug: "windows", category: "Mantenimiento y Limpieza" },
         ];
 
+
         function getLogoMarkup(app) {
             const logoSlug = app.logo_slug;
             const logoUrl = `${ICON_CDN_BASE}${logoSlug}.svg`;
             
+            // El error es un fallback genérico si el slug es incorrecto o no existe.
             return `
                 <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center">
                     <img src="${logoUrl}" alt="${app.name} Logo" 
                          class="w-full h-full object-contain icon-svg" 
-                         onerror="this.parentElement.innerHTML = '<div class=\\'w-full h-full bg-gray-300 text-gray-700 flex items-center justify-center rounded-lg font-bold text-sm\\'>${logoSlug.substring(0, 2).toUpperCase()}</div>';"
+                         onerror="this.parentElement.innerHTML = '<div class=\\'w-full h-full bg-gray-300 text-gray-700 flex items-center justify-center rounded-lg font-bold text-sm\\'>${(app.name.substring(0, 2)).toUpperCase()}</div>';"
                     >
                 </div>
             `;
@@ -121,6 +135,10 @@
 
         // 1. Agrupar las aplicaciones por categoría
         const categorizedApps = apps.reduce((acc, app) => {
+            if (!app.category) {
+                // Herramientas sin categoría van a "General" o se ignoran.
+                app.category = "Otras Utilidades";
+            }
             if (!acc[app.category]) {
                 acc[app.category] = [];
             }
@@ -135,7 +153,7 @@
             const categorySection = document.createElement('section');
             categorySection.className = 'mb-10';
 
-            // Título de la Categoría (Vistoso)
+            // Título de la Categoría
             const categoryHeader = document.createElement('h2');
             categoryHeader.className = 'text-2xl font-bold mb-4 p-3 bg-gray-200 text-gray-800 rounded-lg border-l-4 border-blue-600 shadow-md';
             categoryHeader.textContent = category;
@@ -156,7 +174,7 @@
                     ${logoMarkup}
                     <div class="flex-grow">
                         <h3 class="text-lg font-semibold text-gray-800 mb-1">${app.name}</h3>
-                        <p class="text-sm text-gray-500">${app.desc}</p>
+                        <p class="text-sm text-gray-500">${app.desc || 'Descripción Pendiente.'}</p>
                     </div>
                 `;
 
@@ -170,4 +188,3 @@
     </script>
 </body>
 </html>
-
