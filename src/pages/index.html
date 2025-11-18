@@ -22,7 +22,7 @@
         }
         /* Color de relleno para los SVGs */
         .icon-svg {
-            color: #4B5563; /* Gris oscuro para el relleno por defecto */
+            color: #4B5563;
         }
     </style>
 </head>
@@ -33,77 +33,82 @@
         <p class="mt-2 text-xl text-gray-600">Herramientas y Aplicaciones Esenciales</p>
     </header>
 
-    <div id="apps-container" class="grid-cards">
+    <div id="main-container" class="space-y-12">
         </div>
 
     <script>
-        // Mapeo de la aplicación al 'slug' usado en el CDN de Simple Icons
         const ICON_CDN_BASE = 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/';
-        
-        // Si quieres usar tus propios SVGs de svgl.app, simplemente cambia esta URL:
-        // const ICON_CDN_BASE = 'https://TU-HOSTING.COM/svgl/'; 
 
         const apps = [
-            // { name: "Nombre App", desc: "Descripción concisa", logo_slug: "slug-en-cdn" }
+            // { name: "Nombre App", desc: "Descripción concisa", logo_slug: "slug", category: "Categoría" }
+            
+            // NAVEGADORES
+            { name: "Edge", desc: "Navegador basado en Chromium. Integración MS.", logo_slug: "microsoftedge", category: "Navegadores" },
+            { name: "Chrome", desc: "Estándar de facto para desarrollo y pruebas web.", logo_slug: "googlechrome", category: "Navegadores" },
+            { name: "Firefox", desc: "Devtools potentes y foco en privacidad.", logo_slug: "firefox", category: "Navegadores" },
+            { name: "Brave", desc: "Rápido con bloqueador de rastreadores integrado.", logo_slug: "brave", category: "Navegadores" },
+            { name: "Vivaldi", desc: "Altamente personalizable para flujos específicos.", logo_slug: "vivaldi", category: "Navegadores" },
+            { name: "Opera", desc: "Funcionalidades integradas (VPN, workspaces).", logo_slug: "opera", category: "Navegadores" },
 
-            // Navegadores
-            { name: "Microsoft Edge", desc: "Navegador basado en Chromium. Integración con ecosistema Microsoft.", logo_slug: "microsoftedge" },
-            { name: "Google Chrome", desc: "El estándar de facto para desarrollo y pruebas web.", logo_slug: "googlechrome" },
-            { name: "Mozilla Firefox", desc: "Gran devtools y foco en privacidad.", logo_slug: "firefox" },
-            { name: "Brave", desc: "Navegador rápido con bloqueador de anuncios.", logo_slug: "brave" },
-            { name: "Vivaldi", desc: "Altamente personalizable.", logo_slug: "vivaldi" },
-            { name: "Opera", desc: "Histórico, con funcionalidades integradas.", logo_slug: "opera" },
+            // IDEs y Editores de Código
+            { name: "Visual Studio 2022+", desc: "IDE principal para C# / .NET. Soporte Copilot.", logo_slug: "visualstudio", category: "IDEs y Editores" },
+            { name: "Visual Studio Code", desc: "Editor de código ligero, modular y multiplataforma.", logo_slug: "visualstudiocode", category: "IDEs y Editores" },
+            { name: "Notepad++", desc: "Editor de texto avanzado y ligero para Windows.", logo_slug: "notepadplusplus", category: "IDEs y Editores" },
             
-            // MS Office
-            { name: "Office 365", desc: "Productividad (Word, Excel, etc.).", logo_slug: "microsoftoffice" },
+            // LENGUAJES Y PLATAFORMAS
+            { name: "Python", desc: "Lenguaje versátil para scripting, IA/ML y backend.", logo_slug: "python", category: "Lenguajes y Plataformas" },
+            { name: "Docker Desktop", desc: "Virtualización ligera (contenedores) para desarrollo.", logo_slug: "docker", category: "Lenguajes y Plataformas" },
+
+            // HERRAMIENTAS DE BASE DE DATOS
+            { name: "SSMS / SQL Server", desc: "Herramienta de gestión para SQL Server de Microsoft.", logo_slug: "sqlserver", category: "Bases de Datos" },
+            { name: "Azure Data Studio", desc: "Editor de SQL multiplataforma y más ligero.", logo_slug: "azuredevops", category: "Bases de Datos" },
+            { name: "DBeaver", desc: "Cliente universal de bases de datos (SQL/NoSQL).", logo_slug: "dbeaver", category: "Bases de Datos" },
+            { name: "SQLiteBrowser", desc: "Editor/visor gráfico para bases de datos SQLite.", logo_slug: "sqlite", category: "Bases de Datos" },
+            { name: "LinqPad", desc: "Scratchpad para ejecutar y probar código .NET y LINQ.", logo_slug: "dotnetsix", category: "Bases de Datos" },
             
-            // Entornos de Desarrollo
-            { name: "Visual Studio 2022+", desc: "IDE principal para desarrollo C# / .NET.", logo_slug: "visualstudio" },
-            { name: "Visual Studio Code", desc: "Editor de código ligero y modular.", logo_slug: "visualstudiocode" },
-            { name: "Python", desc: "Lenguaje versátil para scripting y backend.", logo_slug: "python" },
-            { name: "LinqPad", desc: "Bloc de notas para ejecutar código .NET sin IDE.", logo_slug: "dotnetsix" }, // Uso el logo de .NET
+            // TESTING Y APIs
+            { name: "Postman", desc: "Plataforma API (REST/SOAP) para testing y desarrollo.", logo_slug: "postman", category: "Testing y APIs" },
+            { name: "Insomnia", desc: "Cliente alternativo de API REST/GraphQL.", logo_slug: "insomnia", category: "Testing y APIs" },
+            { name: "WireMock", desc: "Servidor de 'mocking' HTTP para pruebas de integración.", logo_slug: "wiremock", category: "Testing y APIs" },
+            { name: "SOAPUI", desc: "Herramienta de testing para servicios web SOAP.", logo_slug: "soapui", category: "Testing y APIs" },
             
-            // Bases de Datos
-            { name: "SSMS / SQL Server", desc: "Herramienta de gestión para SQL Server de Microsoft.", logo_slug: "sqlserver" },
-            { name: "Azure Data Studio", desc: "Editor de SQL multiplataforma.", logo_slug: "azuredevops" }, // Usando Azure DevOps como sustituto
-            { name: "DBeaver", desc: "Cliente universal de bases de datos.", logo_slug: "dbeaver" },
-            { name: "SQLiteBrowser", desc: "Editor y visor gráfico para bases de datos SQLite.", logo_slug: "sqlite" },
+            // UTILIDADES Y PRODUCTIVIDAD
+            { name: "Office 365", desc: "Suite de productividad esencial (Word, Excel, etc.).", logo_slug: "microsoftoffice", category: "Utilidades y Productividad" },
+            { name: "Power BI", desc: "Inteligencia empresarial, análisis y visualización de datos.", logo_slug: "powerbi", category: "Utilidades y Productividad" },
+            { name: "KeePass", desc: "Gestor de contraseñas de código abierto. Seguridad.", logo_slug: "keepass", category: "Utilidades y Productividad" },
+            { name: "7-Zip", desc: "Archivador de archivos con alta compresión.", logo_slug: "7zip", category: "Utilidades y Productividad" },
+            { name: "PowerToys", desc: "Utilidades de Microsoft para aumentar la productividad de Windows.", logo_slug: "microsoftpowertoys", category: "Utilidades y Productividad" },
+            { name: "draw.io / diagrams.net", desc: "Herramienta de diagramación de código abierto.", logo_slug: "diagramsdotnet", category: "Utilidades y Productividad" },
+            { name: "yEd Graph Editor", desc: "Editor de diagramas de alta calidad para estructuras.", logo_slug: "yed", category: "Utilidades y Productividad" }, // Placeholder
+            { name: "Acrobat Reader", desc: "Visor estándar para documentos PDF.", logo_slug: "adobeacrobatreader", category: "Utilidades y Productividad" },
             
-            // Componentes y Utilidades Desarrollo
-            { name: "Postman", desc: "Plataforma API (REST/SOAP).", logo_slug: "postman" },
-            { name: "Insomnia", desc: "Cliente alternativo de API REST/GraphQL.", logo_slug: "insomnia" },
-            { name: "Docker Desktop", desc: "Plataforma de virtualización ligera (contenedores).", logo_slug: "docker" },
-            { name: "WireMock", desc: "Servidor de 'mocking' HTTP para pruebas.", logo_slug: "wiremock" },
-            { name: "Draw.io", desc: "Herramienta de diagramación de código abierto.", logo_slug: "diagramsdotnet" },
-            { name: "7-Zip", desc: "Archivador de archivos con alta compresión.", logo_slug: "7zip" },
-            { name: "curl", desc: "Herramienta CLI para transferir datos.", logo_slug: "curl" },
-            { name: "wget", desc: "Herramienta CLI para descargar contenido.", logo_slug: "gnu" }, // Usando el logo de GNU
+            // HERRAMIENTAS DE SISTEMA Y CLI
+            { name: "WinSCP", desc: "Cliente SFTP, FTP y SCP para transferencias seguras.", logo_slug: "winscp", category: "Sistema y CLI" },
+            { name: "ConEmu", desc: "Consola de Windows avanzada con pestañas y mejoras.", logo_slug: "windows" , category: "Sistema y CLI" }, // Usando logo de Windows
+            { name: "SysInternals", desc: "Colección de herramientas técnicas para diagnóstico.", logo_slug: "microsoft", category: "Sistema y CLI" },
+            { name: "Nirsoft Utilities", desc: "Cientos de utilidades pequeñas y gratuitas para el sistema.", logo_slug: "nirvana", category: "Sistema y CLI" }, // Placeholder
+            { name: "curl", desc: "Herramienta CLI para transferir datos con sintaxis URL.", logo_slug: "curl", category: "Sistema y CLI" },
+            { name: "wget", desc: "Herramienta CLI para descargar contenido de servidores web.", logo_slug: "gnu", category: "Sistema y CLI" },
             
-            // Multimedia
-            { name: "VLC Media Player", desc: "Reproductor multimedia universal.", logo_slug: "vlcmediaplayer" },
-            { name: "Audacity", desc: "Editor de audio digital.", logo_slug: "audacity" },
+            // DIFERENCIAS Y SINCRONIZACIÓN
+            { name: "WinMerge", desc: "Comparación visual y fusión de archivos/directorios.", logo_slug: "winmerge", category: "Diferencias y Sync" },
+            { name: "Beyond Compare", desc: "Comparador de archivos y carpetas líder.", logo_slug: "scootersoftware", category: "Diferencias y Sync" },
+            { name: "SyncToy", desc: "Utilidad de sincronización de archivos de Microsoft.", logo_slug: "microsoft", category: "Diferencias y Sync" },
+            { name: "Synctrayzor", desc: "Cliente de Syncthing para Windows.", logo_slug: "syncthing", category: "Diferencias y Sync" },
+
+            // MULTIMEDIA
+            { name: "VLC Media Player", desc: "Reproductor multimedia universal.", logo_slug: "vlcmediaplayer", category: "Multimedia" },
+            { name: "Audacity", desc: "Editor de audio digital gratuito.", logo_slug: "audacity", category: "Multimedia" },
+            { name: "ffmpeg", desc: "Herramienta CLI para manejar archivos multimedia (audio/video).", logo_slug: "ffmpeg", category: "Multimedia" },
             
-            // Utilidades Generales
-            { name: "Notepad++", desc: "Editor de texto avanzado y ligero.", logo_slug: "notepadplusplus" },
-            { name: "KeePass", desc: "Gestor de contraseñas de código abierto.", logo_slug: "keepass" },
-            { name: "WinSCP", desc: "Cliente SFTP, FTP y SCP.", logo_slug: "winscp" },
-            { name: "mRemoteNG", desc: "Gestor de conexiones remotas con pestañas.", logo_slug: "remote" }, // Placeholder
-            { name: "WinMerge", desc: "Comparación visual y fusión de archivos/directorios.", logo_slug: "winmerge" },
-            { name: "Beyond Compare", desc: "Comparador de archivos y carpetas líder.", logo_slug: "scootersoftware" },
-            { name: "Power Bi", desc: "Herramienta de inteligencia empresarial.", logo_slug: "powerbi" },
-            { name: "PowerToys", desc: "Utilidades de Microsoft para productividad.", logo_slug: "microsoftpowertoys" },
-            
-            // Scripts de Limpieza
-            { name: "Desinstalar Xbox/Juegos", desc: "Scripts de limpieza post-instalación de Windows.", logo_slug: "windows" },
+            // MANTENIMIENTO Y LIMPIEZA
+            { name: "Limpieza Post-Instalación", desc: "Scripts para desinstalar Xbox, Game Bar y juegos innecesarios.", logo_slug: "windows", category: "Mantenimiento y Limpieza" },
         ];
 
-        // Función que usa la referencia externa SVG
         function getLogoMarkup(app) {
             const logoSlug = app.logo_slug;
             const logoUrl = `${ICON_CDN_BASE}${logoSlug}.svg`;
             
-            // Usamos la etiqueta <img>. Es más eficiente que incrustar el SVG.
-            // Para mantener el tamaño consistente, envolvemos en un div.
             return `
                 <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center">
                     <img src="${logoUrl}" alt="${app.name} Logo" 
@@ -114,25 +119,55 @@
             `;
         }
 
-        // Renderizar las tarjetas
-        const container = document.getElementById('apps-container');
-        apps.forEach(app => {
-            const card = document.createElement('div');
-            card.className = 'bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 p-6 flex space-x-4 border border-gray-100';
+        // 1. Agrupar las aplicaciones por categoría
+        const categorizedApps = apps.reduce((acc, app) => {
+            if (!acc[app.category]) {
+                acc[app.category] = [];
+            }
+            acc[app.category].push(app);
+            return acc;
+        }, {});
 
-            const logoMarkup = getLogoMarkup(app);
+        const mainContainer = document.getElementById('main-container');
+
+        // 2. Iterar sobre las categorías y renderizar
+        Object.keys(categorizedApps).forEach(category => {
+            const categorySection = document.createElement('section');
+            categorySection.className = 'mb-10';
+
+            // Título de la Categoría (Vistoso)
+            const categoryHeader = document.createElement('h2');
+            categoryHeader.className = 'text-2xl font-bold mb-4 p-3 bg-gray-200 text-gray-800 rounded-lg border-l-4 border-blue-600 shadow-md';
+            categoryHeader.textContent = category;
             
-            const content = `
-                ${logoMarkup}
-                <div class="flex-grow">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-1">${app.name}</h2>
-                    <p class="text-sm text-gray-500">${app.desc}</p>
-                </div>
-            `;
+            categorySection.appendChild(categoryHeader);
 
-            card.innerHTML = content;
-            container.appendChild(card);
+            // Contenedor de las Tarjetas para esta categoría
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'grid-cards';
+            
+            categorizedApps[category].forEach(app => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 p-6 flex space-x-4 border border-gray-100';
+
+                const logoMarkup = getLogoMarkup(app);
+                
+                const content = `
+                    ${logoMarkup}
+                    <div class="flex-grow">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">${app.name}</h3>
+                        <p class="text-sm text-gray-500">${app.desc}</p>
+                    </div>
+                `;
+
+                card.innerHTML = content;
+                gridContainer.appendChild(card);
+            });
+
+            categorySection.appendChild(gridContainer);
+            mainContainer.appendChild(categorySection);
         });
     </script>
 </body>
 </html>
+
